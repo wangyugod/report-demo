@@ -1,0 +1,159 @@
+<div class="center boxshadow" style="width:958px;border:1px solid #cccccc;background:#fff;min-height: 400px;">
+    <style type="text/css">
+        div.progress-top-menu{}
+        div.progress-top-menu-item{
+            border-right:1px solid #b1c8d7;
+            border-bottom:1px solid #b1c8d7;
+            width:135px;
+            float:left;
+            background:#e4edf4;
+            font-size:14px;
+            font-family:微软雅黑;
+            color:#1e50a2;
+            padding: 0.4em 0em;
+            text-align: center;
+            cursor:pointer;
+            background-image:-webkit-linear-gradient(top,#f6f9fb,#e4edf4);
+            background-image:linear-gradient(top,#f6f9fb,#e4edf4);
+            /*filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f6f9fb',EndColorStr='#e4edf4')*/;
+        }
+    </style>
+    <style type="text/css">
+        div.progress-top-menu{}
+        div.progress-top-menu-item{
+            border-right:1px solid #b1c8d7;
+            border-bottom:1px solid #b1c8d7;
+            width:135px;
+            float:left;
+            background:#e4edf4;
+            font-size:14px;
+            font-family:微软雅黑;
+            color:#1e50a2;
+            padding: 0.4em 0em;
+            text-align: center;
+            cursor:pointer;
+            background-image:-webkit-linear-gradient(top,#f6f9fb,#e4edf4);
+            background-image:linear-gradient(top,#f6f9fb,#e4edf4);
+            /*filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f6f9fb',EndColorStr='#e4edf4')*/;
+        }
+    </style>
+
+    <div class="progress-top-menu">
+        <div class="progress-top-menu-item" onclick="window.location = '/szmetro11/progress/project!info.action';">
+            放贷信息表</div>
+        <div class="progress-top-menu-item" onclick="window.location = '/szmetro11/progress/query.action';">
+            流水信息</div>
+        <div class="progress-top-menu-item" onclick="window.location = '/szmetro11/progress/staff-place.action';">
+            资源投入</div>
+        <div class="progress-top-menu-item" onclick="window.location = '/szmetro11/progress/season-compare!report.action';">
+            季度施工计划</div>
+        <div class="progress-top-menu-item" onclick="window.location = '/szmetro11/progress/duration-warning.action';">
+            工期预警</div>
+        <div class="progress-top-menu-item" onclick="window.location = '/szmetro11/progress/progress-time-flow.action';">
+            填报考核</div>
+        <div class="progress-top-menu-item" style="width:142px;border-right:0px;" onclick="window.location = '/szmetro11/progress/para.action';">参数设置
+        </div>
+    </div>
+
+
+<div id="report" ng-controller="ReportCtrl as rc">
+    <hr>
+    <!--<mwl-calendar
+            view="calendarView"
+            view-date="calendarDate"
+            events="events"
+            view-title="calendarTitle"
+            on-event-click="eventClicked(calendarEvent)"
+            on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
+            edit-event-html="'<i class=\'glyphicon glyphicon-pencil\'></i>'"
+            delete-event-html="'<i class=\'glyphicon glyphicon-remove\'></i>'"
+            on-edit-event-click="eventEdited(calendarEvent)"
+            on-delete-event-click="eventDeleted(calendarEvent)"
+            cell-is-open="true">
+    </mwl-calendar>-->
+    <div id="search" style="margin:16px 0px;">
+        <form  id="ReportForm" name="ReportForm" class="form-horizontal" role="form"
+               ng-submit="rc.fetch()">
+            <div>
+                <table cellpadding="5" cellspacing="0" border="0">
+                    <tbody><tr>
+                        <td class="cell_text">
+                            开始日期：
+                        </td>
+                        <td class="cell_input" colspan="3">
+                            <input id="startDate" style="width: 80px" type="text" value="" name="startDate" class="datepicker hasDatepicker" ng-model="rc.queryCondition.startDate">
+                        </td>
+
+                        </td>
+                        <td class="cell_text">
+                            &nbsp;&nbsp;&nbsp;&nbsp;结束日期:
+                        </td>
+                        <td class="cell_input" colspan="3">
+                            <input id="end" style="width: 80px" type="text" value="" name="endDate" class="datepicker hasDatepicker" ng-model="rc.queryCondition.endDate">
+                        </td>
+                        <td colspan="2">
+                            <input type="submit" class="buttonStyle1" value="搜  索">
+                        </td>
+                    </tr>
+                    </tbody></table>
+            </form>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs">
+        <li role="presentation" ng-if="rc.hideObject.hideBase"><a href="#" ng-click="rc.click('base-report')">报表</a></li>
+        <li role="presentation" ng-if="!rc.hideObject.hideBase" class="active"><a href="#" ng-click="rc.click('base-report')">报表</a></li>
+        <li role="presentation" ng-if="rc.hideObject.hideColumnChart" ><a href="#" ng-click="rc.click('chart-test')">柱状图</a></li>
+        <li role="presentation" ng-if="!rc.hideObject.hideColumnChart" class="active"><a href="#" ng-click="rc.click('chart-test')">柱状图</a></li>
+        <li role="presentation" ng-if="rc.hideObject.hidePieChart"><a href="#"  ng-click="rc.click('pie-chart')">饼状图</a></li>
+        <li role="presentation" ng-if="!rc.hideObject.hidePieChart" class="active"><a href="#"  ng-click="rc.click('pie-chart')">饼状图</a></li>
+    </ul>
+    <div >
+        <div id="base-report" ng-hide="rc.hideObject.hideBase" style="padding:10px;float:right;width:920px;">
+            <div style="text-align:center;">
+                <div style="margin:10px;font-size:16px;font-weight:bolder;font-family:'微软雅黑','宋体';">放贷统计表</div>
+                <div style="margin:5px;color:#aaa;">
+                    <div style="text-align:left;float:left;">制表单位：新疆智道科技</div>
+                    <div style="text-align:right;">报表月份：2016年1月</div>
+                </div>
+            </div>
+            <table class="simple" width="100%">
+                <thead>
+                <tr>
+                    <th rowspan="1">机构名称</th>
+                    <th colspan="1">期初贷款余额</th>
+                    <th colspan="1">本月发放额</th>
+                    <th colspan="1">本月收回贷款额</th>
+                    <th colspan="1">本月贷款余额</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in rc.$scope.items">
+                    <td>
+                        {{ item.name}}
+                    </td>
+                    <td>
+                        {{ item.sqmyejf}}
+                    </td>
+                    <td>
+                        {{ item.bqfsejf}}
+                    </td>
+                    <td>
+                        {{ item.bqfsedf }}
+                    </td>
+                    <td>
+                        {{ item.bqmyejf}}
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div id="chart-test" ng-hide="rc.hideObject.hideColumnChart" style="padding:10px;float:right;width:920px;" fully-done></div>
+
+        </div>
+        <div id="pie-chart" ng-hide="rc.hideObject.hidePieChart" style="padding:10px;float:right;width:920px;" fully-done></div>
+    </div>
+</div>
+</div>
