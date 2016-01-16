@@ -1,0 +1,25 @@
+<div class="btn-group" dropdown>
+
+    <!-- button style dropdown -->
+    <button  type="button"
+            class="btn btn-primary"
+            ng-bind="ngModel[displayField] || default">
+    </button>
+    <button type="button"
+            class="btn btn-primary dropdown-toggle"
+            dropdown-toggle>
+        <span class="caret"></span>
+    </button>
+
+
+
+    <!-- dropdown items -->
+    <ul class="dropdown-menu" role="menu">
+        <li ng-repeat="item in items">
+            <a href="#"
+               ng-bind="item[displayField]"
+               ng-click="select(item)"></a>
+        </li>
+    </ul>
+
+</div>
