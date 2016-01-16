@@ -26,5 +26,4 @@ class ReportService
       )
       deferred.promise
 
-
 servicesModule.service('ReportService', ReportService)

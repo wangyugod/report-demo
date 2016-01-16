@@ -26,6 +26,30 @@ angular.module('myApp.routeConfig', ['ngRoute'])
             requireBase: false
         })
 
+datepickerPopup = () ->
+  {
+  restrict: 'EAC',
+  require: 'ngModel',
+  link: (scope, element, attr, controller) ->
+    controller.$formatters.shift();
+  }
+
+
+
+app.directive('datepickerPopup', datepickerPopup)
+
+parseDate = (dateFilter, $parse) ->
+  {
+    restrict:'EAC',
+    require:'?ngModel',
+    link:(scope,element,attrs,ngModel,ctrl) ->
+      ngModel.$parsers.push((viewValue) ->
+        dateFilter(viewValue,'yyyyMMdd')
+      )
+  }
+
+app.directive('parseDate', parseDate)
+
 @commonModule = angular.module('myApp.common', [])
 @controllersModule = angular.module('myApp.controllers', [])
 @servicesModule = angular.module('myApp.services', [])

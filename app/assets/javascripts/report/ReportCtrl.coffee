@@ -3,17 +3,28 @@ class ReportCtrl
   constructor: (@$scope, @$log,@$location, @ReportService,@$route) ->
     @$scope.items = []
     @hideObject = {hideBase: false, hideColumnChart: true, hidePieChart: true}
-    @queryCondition = {startDate: "", endDate: ""}
-    @fetch()
+    @queryCondition = {startDate: '', endDate: ''}
+    #These variables MUST be set as a minimum for the calendar to work
+    @event = {
+      format: 'yyyyMMdd'
+    }
+
+  onChange: (item) ->
+    @$log.debug 'User selected ' + angular.toJson(item);
+
+
+  toggle: ($event, field, event) ->
+      $event.preventDefault()
+      $event.stopPropagation()
+      event[field] = !event[field]
+
 
   fetch: () ->
-    @$log.debug "get report items"
     @ReportService.fetch(@queryCondition)
     .then(
       (data) =>
         @$scope.items = data
         @notifyShow = true
-        @$log.debug "#{angular.toJson(data, true)}"
     ,
       (error) =>
         @$log.error "Unable to fetch items"
@@ -113,8 +124,6 @@ constructColumnChart = (title, categoriesData, progressData, containerId) ->
           '<b>' + this.x + '</b><br/>' + this.series.name + ': ' + this.y + '<br/>'
       }
     }
-    console.log( $("#chart-test"))
-    console.log("json: #{angular.toJson(chart,true)}")
     new Highcharts.Chart(chart)
 
 

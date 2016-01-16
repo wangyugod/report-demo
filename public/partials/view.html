@@ -58,19 +58,73 @@
 
 <div id="report" ng-controller="ReportCtrl as rc">
     <hr>
+
+    <dropdown
+              ng-model="rc.item"
+              items="rc.items"
+              table-name="'DKSQ_RECORD'"
+              column-name="'name,idcard,uses'"
+              sql-condition = "'idcard like ?'"
+              values="'1%'"
+              on-change="rc.onChange(item)">
+    </dropdown>
+
+    <a href="#" ng-click="rc.test()">test</a>
+
     <!--<mwl-calendar
-            view="calendarView"
-            view-date="calendarDate"
-            events="events"
-            view-title="calendarTitle"
-            on-event-click="eventClicked(calendarEvent)"
-            on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
+            events="rc.vm.events"
+            view="rc.vm.calendarView"
+            view-title="rc.vm.calendarTitle"
+            view-date="rc.vm.viewDate"
+            on-event-click="rc.vm.eventClicked(calendarEvent)"
+            on-event-times-changed="rc.vm.eventTimesChanged(calendarEvent); calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
             edit-event-html="'<i class=\'glyphicon glyphicon-pencil\'></i>'"
             delete-event-html="'<i class=\'glyphicon glyphicon-remove\'></i>'"
-            on-edit-event-click="eventEdited(calendarEvent)"
-            on-delete-event-click="eventDeleted(calendarEvent)"
-            cell-is-open="true">
+            on-edit-event-click="rc.vm.eventEdited(calendarEvent)"
+            on-delete-event-click="rc.vm.eventDeleted(calendarEvent)"
+            cell-is-open="rc.vm.isCellOpen"
+            day-view-start="06:00"
+            day-view-end="22:00"
+            day-view-split="30"
+            cell-modifier="rc.vm.modifyCell(calendarCell)">
     </mwl-calendar>-->
+    <p class="input-group" style="max-width: 250px">
+        <input
+                type="text"
+                class="form-control"
+                readonly
+                datepicker-popup="{{rc.event.format}}"
+                ng-model="rc.queryCondition.startDate"
+                is-open="rc.event.startDateOpen"
+                close-text="Close" parse-date>
+            <span class="input-group-btn">
+              <button
+                      type="button"
+                      class="btn btn-default"
+                      ng-click="rc.toggle($event, 'startDateOpen', rc.event)">
+                  <i class="glyphicon glyphicon-calendar"></i>
+              </button>
+            </span>
+    </p>
+
+    <p class="input-group" style="max-width: 250px">
+        <input
+                type="text"
+                class="form-control"
+                readonly
+                datepicker-popup="{{rc.event.format}}"
+                ng-model="rc.queryCondition.endDate"
+                is-open="rc.event.endDateOpen"
+                close-text="Close" parse-date>
+            <span class="input-group-btn">
+              <button
+                      type="button"
+                      class="btn btn-default"
+                      ng-click="rc.toggle($event, 'endDateOpen', rc.event)">
+                  <i class="glyphicon glyphicon-calendar"></i>
+              </button>
+            </span>
+    </p>
     <div id="search" style="margin:16px 0px;">
         <form  id="ReportForm" name="ReportForm" class="form-horizontal" role="form"
                ng-submit="rc.fetch()">
