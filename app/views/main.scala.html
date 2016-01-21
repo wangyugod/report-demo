@@ -38,7 +38,12 @@
 
         <style type="text/css">
         table.simple {width:100%;}
-        table.simple td{padding:0.5em 0em;text-align: center;}
+        table.simple td{padding:0.5em 0em;text-align: center; font-weight: bolder;}
+        table.simple th {
+            padding: 0.5em 0em;
+            background: #D7EBFF;
+            text-align: center;
+        }
         table.simple thead tr th{padding:0.5em 0em;background: #D7EBFF;text-align: center;}
         div.item{width:48px;border-left: 1px solid #eeeeee;height: 26px;line-height: 26px;text-align: center;background-color: #F8F8FF;float: left;font-size:12px;cursor: pointer;}
         div.itemSelected{background-color: #0290ff;color: #ffffffborder-color: #0290ff;font-weight: bolder;}
@@ -60,6 +65,7 @@
         <!-- Coffee script compilled resources-->
     <script src='@routes.Assets.versioned("javascripts/app.js")' type="text/javascript"></script>
     <script src='@routes.Assets.versioned("javascripts/report/ReportCtrl.js")' type="text/javascript"></script>
+    <script src='@routes.Assets.versioned("javascripts/report/InterbusiReportCtrl.js")' type="text/javascript"></script>
     <script src='@routes.Assets.versioned("javascripts/report/ReportService.js")' type="text/javascript"></script>
     <script src='@routes.Assets.versioned("javascripts/directives/Dropdown.js")' type="text/javascript"></script>
     <script src='@routes.Assets.versioned("javascripts/common/Config.js")' type="text/javascript"></script>

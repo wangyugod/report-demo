@@ -20,6 +20,9 @@ angular.module('myApp.routeConfig', ['ngRoute'])
             .when('/', {
                 templateUrl: '/assets/partials/view.html'
             })
+            .when('/interbusireport', {
+                templateUrl: '/assets/partials/interbusireport.html'
+            })
     .config ($locationProvider) ->
         $locationProvider.html5Mode({
             enabled: true,

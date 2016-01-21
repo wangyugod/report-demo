@@ -2,13 +2,13 @@ class ReportService
   constructor: (@$log, @$http, @$q) ->
     @$log.debug "constructing ReportService"
 
-  fetch: (parameter)->
+  fetch: (parameter, url)->
       @$log.debug "find report items #{parameter}"
       deferred = @$q.defer()
 
       @$http(
         {
-          url: 'http://localhost:8008/rest/db/report-demo',
+          url: url,
           method: "POST",
           data: parameter
           headers: {

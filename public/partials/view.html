@@ -39,8 +39,7 @@
     </style>
 
     <div class="progress-top-menu">
-        <div class="progress-top-menu-item" onclick="window.location = '/szmetro11/progress/project!info.action';">
-            放贷信息表</div>
+        <div class="progress-top-menu-item" ><a href="/interbusireport">中间业务收入报表</a></div>
         <div class="progress-top-menu-item" onclick="window.location = '/szmetro11/progress/query.action';">
             流水信息</div>
         <div class="progress-top-menu-item" onclick="window.location = '/szmetro11/progress/staff-place.action';">
@@ -62,14 +61,12 @@
     <dropdown
               ng-model="rc.item"
               items="rc.items"
-              table-name="'DKSQ_RECORD'"
-              column-name="'name,idcard,uses'"
-              sql-condition = "'idcard like ?'"
-              values="'1%'"
+              table-name="'tagent'"
+              column-name="'fs_name,fs_agent,fs_upagentid'"
+              sql-condition = "'fs_upagentid=?'"
+              values="'8010000'"
               on-change="rc.onChange(item)">
     </dropdown>
-
-    <a href="#" ng-click="rc.test()">test</a>
 
     <!--<mwl-calendar
             events="rc.vm.events"
@@ -150,8 +147,8 @@
                         </td>
                     </tr>
                     </tbody></table>
+                </div>
             </form>
-        </div>
     </div>
 
     <ul class="nav nav-tabs">

@@ -1,0 +1,307 @@
+<div class="center boxshadow" style="width:958px;border:1px solid #cccccc;background:#fff;min-height: 400px;">
+    <style type="text/css">
+        div.progress-top-menu{}
+        div.progress-top-menu-item{
+            border-right:1px solid #b1c8d7;
+            border-bottom:1px solid #b1c8d7;
+            width:135px;
+            float:left;
+            background:#e4edf4;
+            font-size:14px;
+            font-family:微软雅黑;
+            color:#1e50a2;
+            padding: 0.4em 0em;
+            text-align: center;
+            cursor:pointer;
+            background-image:-webkit-linear-gradient(top,#f6f9fb,#e4edf4);
+            background-image:linear-gradient(top,#f6f9fb,#e4edf4);
+            /*filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f6f9fb',EndColorStr='#e4edf4')*/;
+        }
+    </style>
+    <style type="text/css">
+        div.progress-top-menu{}
+        div.progress-top-menu-item{
+            border-right:1px solid #b1c8d7;
+            border-bottom:1px solid #b1c8d7;
+            width:135px;
+            float:left;
+            background:#e4edf4;
+            font-size:14px;
+            font-family:微软雅黑;
+            color:#1e50a2;
+            padding: 0.4em 0em;
+            text-align: center;
+            cursor:pointer;
+            background-image:-webkit-linear-gradient(top,#f6f9fb,#e4edf4);
+            background-image:linear-gradient(top,#f6f9fb,#e4edf4);
+            /*filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f6f9fb',EndColorStr='#e4edf4')*/;
+        }
+    </style>
+
+    <div class="progress-top-menu">
+        <div class="progress-top-menu-item" ><a href="/interbusireport">中间业务收入报表</a></div>
+        <div class="progress-top-menu-item" onclick="window.location = '/szmetro11/progress/query.action';">
+            流水信息</div>
+        <div class="progress-top-menu-item" onclick="window.location = '/szmetro11/progress/staff-place.action';">
+            资源投入</div>
+        <div class="progress-top-menu-item" onclick="window.location = '/szmetro11/progress/season-compare!report.action';">
+            季度施工计划</div>
+        <div class="progress-top-menu-item" onclick="window.location = '/szmetro11/progress/duration-warning.action';">
+            工期预警</div>
+        <div class="progress-top-menu-item" onclick="window.location = '/szmetro11/progress/progress-time-flow.action';">
+            填报考核</div>
+        <div class="progress-top-menu-item" style="width:142px;border-right:0px;" onclick="window.location = '/szmetro11/progress/para.action';">参数设置
+        </div>
+    </div>
+
+
+    <div id="report" ng-controller="InterbusiReportCtrl as irc">
+        <hr>
+
+        <form id="search" name="searchForm" class="form-horizontal" role="form"
+              ng-submit="irc.fetch()">
+            <div class="form-group">
+                <label id="lbl_title" class="col-sm-4 control-label" >机构名称</label>
+
+                <div class="col-sm-8">
+                    <dropdown
+                            ng-model="irc.item"
+                            items="irc.items"
+                            table-name="'tagent'"
+                            column-name="'fs_name,fs_agent,fs_upagentid'"
+                            sql-condition = "'fi_attr in (1,2)'"
+                            on-change="irc.onChange(item)">
+                    </dropdown>
+                </div>
+            </div>
+            <div class="form-group">
+                <label id="lbl_startDate" class="col-sm-4 control-label" is-required="CreateEventForm.title">起始日期</label>
+
+                <div class="col-sm-8">
+                    <p class="input-group" style="max-width: 250px">
+                        <input
+                                type="text"
+                                class="form-control"
+                                readonly
+                                datepicker-popup="{{irc.event.format}}"
+                                ng-model="irc.queryCondition.startDate"
+                                is-open="irc.event.startDateOpen"
+                                close-text="Close" parse-date>
+                        <span class="input-group-btn">
+                          <button
+                                  type="button"
+                                  class="btn btn-default"
+                                  ng-click="irc.toggle($event, 'startDateOpen', irc.event)">
+                              <i class="glyphicon glyphicon-calendar"></i>
+                          </button>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label id="lbl_endDate" class="col-sm-4 control-label" >结束日期</label>
+
+                <div class="col-sm-8">
+                    <p class="input-group" style="max-width: 250px">
+                        <input
+                                type="text"
+                                class="form-control"
+                                readonly
+                                datepicker-popup="{{irc.event.format}}"
+                                ng-model="irc.queryCondition.endDate"
+                                is-open="irc.event.endDateOpen"
+                                close-text="Close" parse-date>
+                        <span class="input-group-btn">
+                          <button
+                                  type="button"
+                                  class="btn btn-default"
+                                  ng-click="irc.toggle($event, 'endDateOpen', irc.event)">
+                              <i class="glyphicon glyphicon-calendar"></i>
+                          </button>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8 text-right">
+                    <button type="submit" class="btn btn-success" id="btn_create">查询</button>
+                </div>
+            </div>
+        </form>
+
+
+
+
+    <ul class="nav nav-tabs">
+        <li role="presentation" ng-if="irc.hideObject.hideBase"><a href="#" ng-click="irc.click('base-report')">报表</a></li>
+        <li role="presentation" ng-if="!irc.hideObject.hideBase" class="active"><a href="#" ng-click="irc.click('base-report')">报表</a></li>
+        <li role="presentation" ng-if="irc.hideObject.hideColumnChart" ><a href="#" ng-click="irc.click('chart-test')">柱状图</a></li>
+        <li role="presentation" ng-if="!irc.hideObject.hideColumnChart" class="active"><a href="#" ng-click="irc.click('chart-test')">柱状图</a></li>
+        <li role="presentation" ng-if="irc.hideObject.hidePieChart"><a href="#"  ng-click="irc.click('pie-chart')">饼状图</a></li>
+        <li role="presentation" ng-if="!irc.hideObject.hidePieChart" class="active"><a href="#"  ng-click="irc.click('pie-chart')">饼状图</a></li>
+    </ul>
+    <div >
+        <div id="base-report" ng-hide="irc.hideObject.hideBase" style="padding:10px;float:right;width:920px;">
+            <div style="text-align:center;">
+                <div style="margin:10px;font-size:16px;font-weight:bolder;font-family:'微软雅黑','宋体';">中间业务收入统计表</div>
+                <div style="margin:5px;color:#aaa;">
+                    <div style="text-align:left;float:left;">制表单位：新疆智道科技</div>
+                    <div style="text-align:right;">报表月份：2016年1月  单位：万元、笔</div>
+                </div>
+            </div>
+            <table class="simple" width="100%">
+                <tbody>
+                <!--
+                    <tr>
+                        <th colspan="2" rowspan="2">12.1代收代付业务收入</th>
+                        <th colspan="4">12.2代理保险业务收入</th>
+                        <th colspan="2" rowspan="2">12.3代理证券业务收入</th>
+                        <th colspan="4">12.4理财业务收入</th>
+                        <th colspan="2" rowspan="2">12.5其他中间业务收入</th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">12.2.1代理财险收入</th>
+                        <th colspan="2">12.2.2代理寿险收入</th>
+                        <th colspan="2">12.4.1个人理财业务收入</th>
+                        <th colspan="2">12.4.2企业理财业务收入</th>
+                    </tr>
+                    <tr>
+                        <th colspan="1">12.1.1交易金额</th>
+                        <th colspan="1">12.1.2业务笔数</th>
+                        <th colspan="1">12.2.1.1交易金额</th>
+                        <th colspan="1">12.2.1.2业务笔数</th>
+                        <th colspan="1">12.2.2.1交易金额</th>
+                        <th colspan="1">12.2.2.2业务笔数</th>
+                        <th colspan="1">12.3.1交易金额</th>
+                        <th colspan="1">12.3.2业务户数</th>
+                        <th colspan="1">12.4.1.1交易金额</th>
+                        <th colspan="1">12.4.1.2业务笔数</th>
+                        <th colspan="1">12.4.2.1交易金额</th>
+                        <th colspan="1">12.4.2.2业务笔数</th>
+                        <th colspan="1">12.5.1交易金额</th>
+                        <th colspan="1">12.5.2业务笔数</th>
+                    </tr>
+                    -->
+                <tr>
+                    <th colspan="1" width="30%">12.1代收代付业务收入</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th colspan="1" width="30%">12.1.1交易金额</th>
+                    <td>{{irc.$scope.item.ioSumAmount}}</td>
+                </tr>
+                <tr>
+                    <th colspan="1" width="30%">12.1.2业务笔数</th>
+                    <td>{{irc.$scope.item.ioCount}}</td>
+                </tr>
+                <tr>
+                    <th colspan="1" width="30%">12.2代理保险业务收入</th>
+                    <td>{{irc.$scope.item.insuranceIncome}}</td>
+                </tr>
+                <tr>
+                    <th colspan="1" width="30%">12.2.1代理财险收入</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th colspan="1" width="30%">12.2.1.1交易金额</th>
+                    <td>{{irc.$scope.item.estSumAmount}}</td>
+                </tr>
+                <tr>
+                    <th colspan="1" width="30%">12.2.1.2业务笔数</th>
+                    <td>{{irc.$scope.item.estCount}}</td>
+                </tr>
+                <tr>
+                    <th colspan="1" width="30%">12.2.2代理寿险收入</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th colspan="1" width="30%">12.2.2.1交易金额</th>
+                    <td>{{irc.$scope.item.lifeInsSumAmount}}</td>
+                </tr>
+                <tr>
+                    <th colspan="1" width="30%">12.2.2.2业务笔数</th>
+                    <td>{{irc.$scope.item.lifeInsCount}}</td>
+                </tr>
+                <tr>
+                    <th colspan="1" width="30%">12.3代理证券业务收入</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th colspan="1" width="30%">12.3.1交易金额</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th colspan="1" width="30%">12.3.2业务户数</th>
+                    <td></td>
+                </tr>
+                 <tr>
+                    <th colspan="1" width="30%">12.4理财业务收入</th>
+                    <td></td>
+                </tr>
+                 <tr>
+                    <th colspan="1" width="30%">12.4.1个人理财业务收入</th>
+                    <td></td>
+                </tr>
+                 <tr>
+                    <th colspan="1" width="30%">12.4.1.1交易金额</th>
+                    <td></td>
+                </tr>
+                 <tr>
+                    <th colspan="1" width="30%">12.4.1.2业务笔数</th>
+                    <td></td>
+                </tr>
+                 <tr>
+                    <th colspan="1" width="30%">12.4.2企业理财业务收入</th>
+                    <td></td>
+                </tr>
+                 <tr>
+                    <th colspan="1" width="30%">12.4.2.1交易金额</th>
+                    <td></td>
+                </tr>
+                 <tr>
+                    <th colspan="1" width="30%">12.4.2.2业务笔数</th>
+                    <td></td>
+                </tr>
+                 <tr>
+                    <th colspan="1" width="30%">12.5其他中间业务收入</th>
+                    <td></td>
+                </tr>
+                 <tr>
+                    <th colspan="1" width="30%">12.5.1交易金额</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th colspan="1" width="30%">12.5.2业务笔数</th>
+                    <td></td>
+                </tr>
+
+
+                    <!--<tr ng-repeat="item in irc.$scope.items">
+                        <td>
+                            {{ item.name}}
+                        </td>
+                        <td>
+                            {{ item.sqmyejf}}
+                        </td>
+                        <td>
+                            {{ item.bqfsejf}}
+                        </td>
+                        <td>
+                            {{ item.bqfsedf }}
+                        </td>
+                        <td>
+                            {{ item.bqmyejf}}
+                        </td>
+
+                    </tr>-->
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div id="chart-test" ng-hide="irc.hideObject.hideColumnChart" style="padding:10px;float:right;width:920px;" fully-done></div>
+
+        </div>
+        <div id="pie-chart" ng-hide="irc.hideObject.hidePieChart" style="padding:10px;float:right;width:920px;" fully-done></div>
+    </div>
+</div>
+</div>

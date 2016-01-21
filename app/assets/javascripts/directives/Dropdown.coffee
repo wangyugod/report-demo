@@ -21,11 +21,14 @@ Dropdown = (@$q, @$http) ->
 
       #根据表名和字段名
       columnNameArr = scope.columnNames.split(',')
-      parameter = {columnNames: columnNameArr, condition: scope.condition, tableName: scope.tableName, values: ["1%"]}
+      valuesArray = []
+      if scope.values
+        valuesArray = scope.values.split(',')
+      parameter = {columnNames: columnNameArr, condition: scope.condition, tableName: scope.tableName, values: valuesArray}
       deferred = @$q.defer()
       @$http(
         {
-          url: 'http://localhost:8008/rest/db/directive',
+          url: 'http://localhost:8008/rest/report/directive',
           method: "POST",
           data: parameter
           headers: {

@@ -20,11 +20,10 @@ class ReportCtrl
 
 
   fetch: () ->
-    @ReportService.fetch(@queryCondition)
+    @ReportService.fetch(@queryCondition, 'http://localhost:8008/rest/report/report-demo')
     .then(
       (data) =>
         @$scope.items = data
-        @notifyShow = true
     ,
       (error) =>
         @$log.error "Unable to fetch items"
