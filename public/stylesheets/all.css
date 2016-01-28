@@ -408,3 +408,14 @@ input.find{border: 0px;width:25px;height:25px;background:url(/assets/img/find.pn
 .dateselected a{color:#fff;}
 .datefuture {color: #AEAEAE;cursor: default;}
 .datefuture a{color: #AEAEAE;}
+
+input[type=button],input[type=submit],input[type=reset] {
+    font-size: 13px;
+    border-left: 1px solid #cccccc;
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
+    padding-top: 2px;
+    background-color: #F1F1F1;
+    /*background-image: url(images/banner.png);*/
+}

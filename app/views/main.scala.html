@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String, user: Option[User])
 
 <!DOCTYPE html>
 
@@ -53,12 +53,16 @@
     </head>
     <body>
 
-        @head()
+        <div>
+            @head(user)
+            @topnav()
+        </div>
         <div >
             <div>
                 <div  ng-view></div>
             </div>
         </div>
+        @footer()
     </body>
 
 

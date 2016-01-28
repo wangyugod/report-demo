@@ -1,58 +1,21 @@
-<div>
-    <div class="center top">
-        <table style="width:100%;background-color:transparent;" cellpadding="0" cellspacing="0">
-            <tr>
-                <td width="600" align="left" rowspan="2"><img src="@routes.Assets.versioned("img/logo.gif")" width="600" height="80"/></td>
-                <td width="auto" align="right">
-                    <script type="text/javascript">
-                    var username = '<sec:authentication property="name"/>';
-                    if(username=='roleAnonymous') {
-                    document.write('<a style="color:blue" href="${ctx }/login.jsp">登录</a>');
-                    } else {
-                    document.write(username+' <a style="color:blue"href="javascript:void(0);" onclick="if(confirm(\'确认退出?\')) window.top.location=\'${ctx}/j_spring_security_logout\';">注销登录</a>');
-                    document.write(' <a style="color:red" href="${ctx}/personal/personal.action">个人中心</a>');
+@(user: Option[User])
+<div class="center top">
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="600" align="left" rowspan="2"><img src="@routes.Assets.versioned("img/logo.gif")" width="600" height="80"/></td>
+            <td width="auto" align="right">
+                <script type="text/javascript">
+                    @user match {
+                        case Some(u) => {
+                            document.write ( '操作员 ' + @u.login + ' <a style="color:blue" target="_self" href=" @routes.Application.logout() ">注销登录</a>');
+                            document.write ( ' <a style="color:red" href="${ctx}/personal/personal.action">个人中心</a>' ) ;
+                        }
+                        case _ => {
+
+                        }
                     }
-                    </script>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="center boxshadow" style="margin-bottom:8px;">
-        <div class="mainMenu">
-            <table cellpadding="0" cellspacing="0">
-                <tr>
-                    <td id="head_index" onclick="window.location = '${ctx }/index.action';">
-						首页
-                    </td>
-                    <td id="head_progress" onclick="window.location = '/'">
-						报表管理
-                    </td>
-                    <td id="head_material" onclick="window.location = '${ctx }/material/index.action'">
-						物资管理
-                    </td>
-                    <td id="head_equipment" onclick="window.location = '${ctx }/equipment/index.action'">
-						设备管理
-                    </td>
-                    <td id="head_fund" onclick="window.location = '${ctx }/fund/index.action'">
-						成本管理
-                    </td>
-                    <td id="head_quality" onclick="window.location = '${ctx }/quality/safe-month-report.action'">
-						安质环管理
-                    </td>
-                    <td id="head_emp" onclick="window.location = '${ctx }/emp/index.action'">
-						人员管理
-                    </td>
-                    <td id="head_order" onclick="window.location = '${ctx }/order/index.action'">
-						文件管理
-                    </td>
-                    <td id="head_album" onclick="window.location = '${ctx }/album/index.action'">
-						工程宣传
-                    </td>
-                    <td id="head_security" onclick="window.location = '${ctx }/security/index.action'">
-						系统管理
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
+                </script>
+            </td>
+        </tr>
+    </table>
 </div>

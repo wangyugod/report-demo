@@ -1,0 +1,56 @@
+@(form: Form[(String, String)])(implicit flash: Flash)
+<!doctype html>
+<html lang="zh" ng-app="myApp">
+    <head>
+        <meta charset="utf-8">
+        <title>新疆智道信息科技</title>
+        <link rel="stylesheet" type="text/css" href='@routes.Assets.versioned("stylesheets/all.css")'>
+    </head>
+    <body>
+
+        @head(None)
+            <!-- Fixed navbar -->
+        <div class="center boxshadow" style="background-color: white;background:url(@routes.Assets.versioned("img/loginbg2.jpg")) no-repeat bottom;height:272px;">
+            <div id="loginpad" style="float:right;padding:4px 16px;margin:24px 24px;background:url(@routes.Assets.versioned("img/loginbg2.png"))">
+                <div style="border-bottom: 1px solid #999999; padding-bottom: 8px;">
+                    <font size="3" style="font-family:微软雅黑;">用户登录</font>
+                        &nbsp;
+                    <span style="color:red;visibility: hidden;"> 用户名或密码错误 </span>
+                </div>
+                <br>
+                <form id="loginForm" action="@routes.CredentialsAuthController.authenticate()" style="text-align: center;" method="post">
+                    <table cellpadding="8" cellspacing="0" border="0" style="background-color:transparent;">
+                        <tbody><tr>
+                            <td>
+                                登录账号：
+                            </td>
+                            <td>
+                                <input style="width:150px" type="text" id="login" name="login" tabindex="10" value="">
+                            </td>
+                        </tr>
+                            <tr>
+                                <td>
+                                    登录密码：
+                                </td>
+                                <td>
+                                    <input style="width:150px" type="password" id="password" name="password" tabindex="11">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" align="center">
+                                    <input type="submit" style="background-color:#2A90FF;color:#ffffff;" value="登  陆" tabindex="13">
+                                        &nbsp;
+                                    <input type="reset" style="background-color:#2A90FF;color:#ffffff;" value="重  置" tabindex="14">
+                                </td>
+                            </tr>
+                        </tbody></table>
+                </form>
+            </div>
+        </div>
+
+        @footer()
+
+    </body>
+
+</html>
+

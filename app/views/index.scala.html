@@ -1,7 +1,3 @@
-@(message: String)
+@(message: String)(implicit user: Option[User])
 
-@main("新疆智道科技") {
-
-    @play20.welcome(message)
-
-}
+@main("新疆智道科技", user)
